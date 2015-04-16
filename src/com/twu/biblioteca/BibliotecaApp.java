@@ -3,8 +3,12 @@ package com.twu.biblioteca;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.List;
 
 public class BibliotecaApp {
+
+    private List<Book> bookList = new ArrayList();
 
     public static void main(String[] args) throws IOException {
 
@@ -18,15 +22,32 @@ public class BibliotecaApp {
 
         //check if input is a number (selecting menu item) or a command
 
+        String command = new String();
+        int inputInt;
+        String input;
+
+        input = br.readLine();
+
         try{
-            int i = Integer.parseInt(br.readLine());
-            System.out.println(i);
+            //check if input is an integer
+            inputInt = Integer.parseInt(br.readLine());
+            if (inputInt == 1) {
+                System.out.println("listing books");
+                //call list books method
+            }
+            else {
+                System.out.println("Enter valid menu item number");
+            }
+
         }catch(NumberFormatException nfe){
-            System.err.println("Invalid Format!");
+            command = input;
+            //run command according to input
+
+            //else error message
+            //System.err.println("Invalid Format!");
         }
-        String s = br.readLine();
-        System.out.println(s);
 
         //use switch statement to process command
+
     }
 }

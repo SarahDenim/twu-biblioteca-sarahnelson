@@ -12,13 +12,23 @@ public class BibliotecaApp {
 
     public static void main(String[] args) throws IOException {
         BibliotecaApp app = new BibliotecaApp();
+        app.start();
     }
 
-    public BibliotecaApp() throws IOException {
+    public BibliotecaApp() {
+
+    }
+
+    public void start () throws IOException {
         setUpBookList();
         welcomeMessage();
         mainMenu();
-        runCommand(checkInput());
+
+        while(true) {
+            char input = checkInput();
+            if(input == 'q') break;
+            runCommand(input);
+        }
     }
 
     public char checkInput() throws IOException {
@@ -45,13 +55,18 @@ public class BibliotecaApp {
                 if (inputInt == 1) {
                     return 1;
                     //call list books method
-                } else {
+                }
+                else if (inputInt == 2) {
+                    return 2;
+                }
+                else if (inputInt == 3) {
+                    return 3;
+                }
+                else {
                     System.err.println("Enter valid menu item number");
-                    runCommand(checkInput());
                 }
             } catch (NumberFormatException nfe) {
                 System.err.println("Invalid Command");
-                runCommand(checkInput());
             }
         }
         return 0;
@@ -61,20 +76,40 @@ public class BibliotecaApp {
         switch (command) {
             case 'm':
                 mainMenu();
-                runCommand(checkInput());
+                //runCommand(checkInput());
                 break;
             case 'q':
                 quit();
-                runCommand(checkInput());
+                //runCommand(checkInput());
                 break;
             case 1:
                 listBooks();
-                runCommand(checkInput());
+                //runCommand(checkInput());
+                break;
+            case 2:
+                System.out.println("Which book do you wish to check out?");
+                BufferedReader br1 = new BufferedReader(new InputStreamReader(System.in));
+                String input1 = br1.readLine();
+                checkoutBook(input1);
+                break;
+            case 3:
+                System.out.println("Which book do you wish to return?");
+                BufferedReader br2 = new BufferedReader(new InputStreamReader(System.in));
+                String input2 = br2.readLine();
+                returnBook(input2);
+                break;
         }
     }
 
     public void listBooks() throws IOException {
-        System.out.println(bookList);
+        for (Book b:bookList){
+            if(b.isCheckedIn()){
+                System.out.print(b.getName() + " by ");
+                System.out.print(b.getAuthor() + ", ");
+                System.out.println(b.getYear_published());
+            }
+        }
+        //System.out.println(bookList);
     }
 
     public static void quit() throws IOException {
@@ -93,11 +128,38 @@ public class BibliotecaApp {
     }
 
     public void setUpBookList() {
-
         Book Gatsby = new Book("The Great Gatsby", "F. Scott Fitzgerald", 1925);
         Book Rings = new Book("The Lord of the Rings", "J.R.R. Tolkien", 1954);
 
         bookList.add(Gatsby);
         bookList.add(Rings);
+    }
+
+    public void checkoutBook(String input) {
+        boolean success = false;
+        for(Book b:bookList) {
+            if (b.getName().equals(input)) {
+                b.checkOut();
+                System.out.println("Thank you! Enjoy the book");
+                success = true;
+            }
+            if (!success) {
+                System.out.println("That book is not available.");
+            }
+        }
+    }
+
+    public void returnBook(String input) {
+        boolean success = false;
+        for(Book b:bookList) {
+            if (b.getName().equals(input)) {
+                b.checkIn();
+                System.out.println("Thank you for returning the book.");
+                success = true;
+            }
+            if (!success) {
+                System.out.println("That is not a valid book to return.");
+            }
+        }
     }
 }

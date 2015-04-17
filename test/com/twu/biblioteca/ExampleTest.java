@@ -12,8 +12,7 @@ import static org.junit.Assert.assertNotNull;
 public class ExampleTest {
 
     private final ByteArrayOutputStream outContent = new ByteArrayOutputStream();
-    private final ByteArrayOutputStream errContent = new ByteArrayOutputStream();
-    BibliotecaApp app;
+    //private final ByteArrayOutputStream errContent = new ByteArrayOutputStream();
 
     @Test
     public void test() {
@@ -24,19 +23,18 @@ public class ExampleTest {
     public void setUpApp() throws IOException {
         ByteArrayInputStream inContent = new ByteArrayInputStream("1".getBytes());
         System.setIn(inContent);
-        app = new BibliotecaApp();
     }
 
     @Before
     public void setUpStreams() {
         System.setOut(new PrintStream(outContent));
-        System.setErr(new PrintStream(errContent));
+        //System.setErr(new PrintStream(errContent));
     }
 
     @After
     public void cleanUpStreams() {
         System.setOut(null);
-        System.setErr(null);
+        //System.setErr(null);
     }
 
     @Test

@@ -8,15 +8,20 @@ import java.util.List;
 
 public class BibliotecaApp {
 
-    //private List<Book> bookList = new ArrayList();
+    private List<Book> bookList = new ArrayList<Book>();
 
     public static void main(String[] args) throws IOException {
+        BibliotecaApp app = new BibliotecaApp();
+    }
+
+    public BibliotecaApp() throws IOException {
+        setUpBookList();
         welcomeMessage();
         mainMenu();
         runCommand(checkInput());
     }
 
-    public static char checkInput() throws IOException {
+    public char checkInput() throws IOException {
         System.out.println("\nWhat would you like to do?");
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 
@@ -52,7 +57,7 @@ public class BibliotecaApp {
         return 0;
     }
 
-    public static void runCommand(char command) throws IOException {
+    public void runCommand(char command) throws IOException {
         switch (command) {
             case 'm':
                 mainMenu();
@@ -68,8 +73,8 @@ public class BibliotecaApp {
         }
     }
 
-    public static void listBooks() throws IOException {
-        System.out.println("Listing books");
+    public void listBooks() throws IOException {
+        System.out.println(bookList);
     }
 
     public static void quit() throws IOException {
@@ -77,13 +82,22 @@ public class BibliotecaApp {
         System.out.println("Quitting program");
     }
 
-    public static void welcomeMessage() throws IOException {
+    public void welcomeMessage() throws IOException {
         System.out.println("Welcome to Biblioteca! We're ready to rumble!");
     }
 
-    public static void mainMenu() throws IOException {
+    public void mainMenu() throws IOException {
         System.out.println("Main menu: \n1. List Books \n2. Checkout book \n" +
                 "3. Return book \n\nCommands (use at any time) \nm: show main menu " +
                 "\nq: quit");
+    }
+
+    public void setUpBookList() {
+
+        Book Gatsby = new Book("The Great Gatsby", "F. Scott Fitzgerald", 1925);
+        Book Rings = new Book("The Lord of the Rings", "J.R.R. Tolkien", 1954);
+
+        bookList.add(Gatsby);
+        bookList.add(Rings);
     }
 }

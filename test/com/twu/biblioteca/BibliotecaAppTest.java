@@ -7,17 +7,10 @@ import org.junit.Test;
 import java.io.*;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
 
-public class ExampleTest {
+public class BibliotecaAppTest {
 
     private final ByteArrayOutputStream outContent = new ByteArrayOutputStream();
-    //private final ByteArrayOutputStream errContent = new ByteArrayOutputStream();
-
-    @Test
-    public void test() {
-        assertEquals(1, 1);
-    }
 
     @Before
     public void setUpApp() throws IOException {
@@ -37,13 +30,13 @@ public class ExampleTest {
 
     @Test
     public void welcomeMessageTest() throws Exception {
-        new BibliotecaApp().welcomeMessage();
+        new Options().welcomeMessage();
         assertEquals("Welcome to Biblioteca! We're ready to rumble!\n", outContent.toString());
     }
 
     @Test
     public void mainMenuTest() throws Exception {
-        new BibliotecaApp().mainMenu();
+        new Options().mainMenu();
         assertEquals("Main menu: \n1. List Books \n2. Checkout book \n" +
                 "3. Return book \n\nCommands (use at any time) \nm: show main menu " +
                 "\nq: quit\n", outContent.toString());

@@ -19,18 +19,15 @@ public class BibliotecaApp {
         menuOptions.mainMenu();
 
         while(true) {
-            char input = checkInput();
-            if(input == 'q') break;
-            runCommand(input);
+            System.out.println("\nWhat would you like to do?");
+            BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+            String input = br.readLine();
+            if(input.equals("q")) return;
+            runCommand(checkInput(input));
         }
     }
 
-    public char checkInput() throws IOException {
-        System.out.println("\nWhat would you like to do?");
-        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-
-        String input = br.readLine();
-
+    public char checkInput(String input) throws IOException {
         if (input.equals("m")) {
             return 'm';
         }

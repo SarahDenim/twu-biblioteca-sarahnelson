@@ -4,9 +4,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by sarahnelson on 18/04/2015.
- */
 public class Options {
 
     private List<Book> bookList = new ArrayList<Book>();
@@ -44,7 +41,7 @@ public class Options {
         for(Book b:bookList) {
             if (b.getName().equals(input) && (b.isCheckedIn())) {
                 b.checkOut();
-                System.out.println("Thank you! Enjoy the book");
+                System.out.println("Thank you! Enjoy the book.");
                 success = true;
             }
         }

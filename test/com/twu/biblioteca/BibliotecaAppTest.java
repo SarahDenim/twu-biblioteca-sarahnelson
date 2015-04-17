@@ -44,29 +44,52 @@ public class BibliotecaAppTest {
 
     @Test
     public void checkInputM() throws Exception {
-        ByteArrayInputStream inContentM = new ByteArrayInputStream("m".getBytes());
-        System.setIn(inContentM);
-        assertEquals('m', new BibliotecaApp().checkInput());
+        assertEquals('m', new BibliotecaApp().checkInput("m"));
     }
 
     @Test
     public void checkInput1() throws Exception {
-        ByteArrayInputStream inContent1 = new ByteArrayInputStream("1".getBytes());
-        System.setIn(inContent1);
-        assertEquals(1, new BibliotecaApp().checkInput());
+        assertEquals(1, new BibliotecaApp().checkInput("1"));
     }
 
     @Test
     public void checkInput2() throws Exception {
-        ByteArrayInputStream inContent2 = new ByteArrayInputStream("2".getBytes());
-        System.setIn(inContent2);
-        assertEquals(2, new BibliotecaApp().checkInput());
+        assertEquals(2, new BibliotecaApp().checkInput("2"));
     }
 
     @Test
     public void checkInput3() throws Exception {
-        ByteArrayInputStream inContent3 = new ByteArrayInputStream("3".getBytes());
-        System.setIn(inContent3);
-        assertEquals(3, new BibliotecaApp().checkInput());
+        assertEquals(3, new BibliotecaApp().checkInput("3"));
+    }
+
+    @Test
+    public void checkInvalidInput() throws Exception {
+        assertEquals(0, new BibliotecaApp().checkInput("P"));
+    }
+
+    @Test
+    public void listBooksTest() throws IOException {
+        Options options = new Options();
+        options.setUpBookList();
+        options.listBooks();
+        assertEquals("The Great Gatsby by F. Scott Fitzgerald, 1925\n" +
+                     "The Lord of the Rings by J.R.R. Tolkien, 1954\n", outContent.toString());
+    }
+
+    @Test
+    public void checkOutBookTest() {
+        Options options = new Options();
+        options.setUpBookList();
+        options.checkoutBook("The Great Gatsby");
+        assertEquals("Thank you! Enjoy the book.\n", outContent.toString());
+    }
+
+    @Test
+    public void returnBookTest() {
+        Options options = new Options();
+        options.setUpBookList();
+        options.checkoutBook("The Great Gatsby");
+        options.returnBook("The Great Gatsby");
+        assertEquals("Thank you! Enjoy the book.\nThank you for returning the book.\n", outContent.toString());
     }
 }

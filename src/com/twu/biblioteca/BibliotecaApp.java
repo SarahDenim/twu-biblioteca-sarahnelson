@@ -39,10 +39,7 @@ public class BibliotecaApp {
 
         String input = br.readLine();
 
-        if(input.equals("q")) {
-            return 'q';
-        }
-        else if (input.equals("m")) {
+        if (input.equals("m")) {
             return 'm';
         }
         else {
@@ -63,10 +60,10 @@ public class BibliotecaApp {
                     return 3;
                 }
                 else {
-                    System.err.println("Enter valid menu item number");
+                    System.err.println("Select a valid option!");
                 }
             } catch (NumberFormatException nfe) {
-                System.err.println("Invalid Command");
+                System.err.println("Select a valid option!");
             }
         }
         return 0;
@@ -76,10 +73,6 @@ public class BibliotecaApp {
         switch (command) {
             case 'm':
                 mainMenu();
-                //runCommand(checkInput());
-                break;
-            case 'q':
-                quit();
                 //runCommand(checkInput());
                 break;
             case 1:
@@ -112,11 +105,6 @@ public class BibliotecaApp {
         //System.out.println(bookList);
     }
 
-    public static void quit() throws IOException {
-        //quit program
-        System.out.println("Quitting program");
-    }
-
     public void welcomeMessage() throws IOException {
         System.out.println("Welcome to Biblioteca! We're ready to rumble!");
     }
@@ -138,28 +126,28 @@ public class BibliotecaApp {
     public void checkoutBook(String input) {
         boolean success = false;
         for(Book b:bookList) {
-            if (b.getName().equals(input)) {
+            if (b.getName().equals(input) && (b.isCheckedIn())) {
                 b.checkOut();
                 System.out.println("Thank you! Enjoy the book");
                 success = true;
             }
-            if (!success) {
-                System.out.println("That book is not available.");
-            }
+        }
+        if (!success) {
+            System.out.println("That book is not available.");
         }
     }
 
     public void returnBook(String input) {
         boolean success = false;
         for(Book b:bookList) {
-            if (b.getName().equals(input)) {
+            if (b.getName().equals(input) && (!b.isCheckedIn())) {
                 b.checkIn();
                 System.out.println("Thank you for returning the book.");
                 success = true;
             }
-            if (!success) {
-                System.out.println("That is not a valid book to return.");
-            }
+        }
+        if (!success) {
+            System.out.println("That is not a valid book to return.");
         }
     }
 }

@@ -28,13 +28,11 @@ public class ExampleTest {
     @Before
     public void setUpStreams() {
         System.setOut(new PrintStream(outContent));
-        //System.setErr(new PrintStream(errContent));
     }
 
     @After
     public void cleanUpStreams() {
         System.setOut(null);
-        //System.setErr(null);
     }
 
     @Test
@@ -59,16 +57,23 @@ public class ExampleTest {
     }
 
     @Test
-    public void checkInputQ() throws Exception {
-        ByteArrayInputStream inContentM = new ByteArrayInputStream("q".getBytes());
-        System.setIn(inContentM);
-        assertEquals('q', new BibliotecaApp().checkInput());
-    }
-
-    @Test
     public void checkInput1() throws Exception {
         ByteArrayInputStream inContent1 = new ByteArrayInputStream("1".getBytes());
         System.setIn(inContent1);
         assertEquals(1, new BibliotecaApp().checkInput());
+    }
+
+    @Test
+    public void checkInput2() throws Exception {
+        ByteArrayInputStream inContent2 = new ByteArrayInputStream("2".getBytes());
+        System.setIn(inContent2);
+        assertEquals(2, new BibliotecaApp().checkInput());
+    }
+
+    @Test
+    public void checkInput3() throws Exception {
+        ByteArrayInputStream inContent3 = new ByteArrayInputStream("3".getBytes());
+        System.setIn(inContent3);
+        assertEquals(3, new BibliotecaApp().checkInput());
     }
 }

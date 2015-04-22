@@ -43,22 +43,22 @@ public class BibliotecaAppTest {
     }
 
     @Test
-    public void checkInputM() throws Exception {
+    public void checkInputReturnsMGivenM() throws Exception {
         assertEquals('m', new BibliotecaApp().checkInput("m"));
     }
 
     @Test
-    public void checkInput1() throws Exception {
+    public void checkInputReturns1Given1() throws Exception {
         assertEquals(1, new BibliotecaApp().checkInput("1"));
     }
 
     @Test
-    public void checkInput2() throws Exception {
+    public void checkInputReturns2Given2() throws Exception {
         assertEquals(2, new BibliotecaApp().checkInput("2"));
     }
 
     @Test
-    public void checkInput3() throws Exception {
+    public void checkInputReturns3Given3() throws Exception {
         assertEquals(3, new BibliotecaApp().checkInput("3"));
     }
 
@@ -77,7 +77,7 @@ public class BibliotecaAppTest {
     }
 
     @Test
-    public void checkOutBookTest() {
+    public void checkOutAvailableBookTest() {
         Options options = new Options();
         options.setUpBookList();
         options.checkoutBook("The Great Gatsby");
@@ -85,11 +85,27 @@ public class BibliotecaAppTest {
     }
 
     @Test
-    public void returnBookTest() {
+    public void unsuccessfullyCheckOutUnavailableBookTest() {
+        Options options = new Options();
+        options.setUpBookList();
+        options.checkoutBook("The Flying Cats");
+        assertEquals("That book is not available.\n", outContent.toString());
+    }
+
+    @Test
+    public void SuccessfullyReturnAvailableBookTest() {
         Options options = new Options();
         options.setUpBookList();
         options.checkoutBook("The Great Gatsby");
         options.returnBook("The Great Gatsby");
         assertEquals("Thank you! Enjoy the book.\nThank you for returning the book.\n", outContent.toString());
+    }
+
+    @Test
+    public void UnsuccessfullyReturnUnavailableBookTest() {
+        Options options = new Options();
+        options.setUpBookList();
+        options.returnBook("The Great Gatsby");
+        assertEquals("That is not a valid book to return.\n", outContent.toString());
     }
 }

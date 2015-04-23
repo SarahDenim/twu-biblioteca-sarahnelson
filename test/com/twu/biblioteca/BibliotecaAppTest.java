@@ -12,15 +12,17 @@ public class BibliotecaAppTest {
 
     private final ByteArrayOutputStream outContent = new ByteArrayOutputStream();
 
+
     @Before
     public void setUpApp() throws IOException {
-        ByteArrayInputStream inContent = new ByteArrayInputStream("1".getBytes());
-        System.setIn(inContent);
+        //ByteArrayInputStream inContent = new ByteArrayInputStream("1".getBytes());
+        //System.setIn(inContent);
     }
 
     @Before
     public void setUpStreams() {
         System.setOut(new PrintStream(outContent));
+        //System.setErr(new PrintStream(errContent));
     }
 
     @After
@@ -63,8 +65,17 @@ public class BibliotecaAppTest {
     }
 
     @Test
-    public void checkInvalidInput() throws Exception {
-        assertEquals(0, new BibliotecaApp().checkInput("P"));
+    public void invalidMenuOptionTest() throws Exception {
+        ByteArrayInputStream testInput = new ByteArrayInputStream("P".getBytes());
+        ByteArrayOutputStream errContent = new ByteArrayOutputStream();
+        //System.setErr(new PrintStream(errContent));
+        BibliotecaApp app = new BibliotecaApp(testInput);
+        //BibliotecaApp app = new BibliotecaApp();
+        app.start();
+        //assertEquals(0, new BibliotecaApp().checkInput("P"));
+
+
+        assertEquals("Select a valid option!\n", errContent.toString());
     }
 
     @Test

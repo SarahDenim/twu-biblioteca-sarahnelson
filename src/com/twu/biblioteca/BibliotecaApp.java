@@ -1,16 +1,24 @@
 package com.twu.biblioteca;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
+import java.io.*;
 
 public class BibliotecaApp {
+
+    private InputStream in;
 
     Options menuOptions = new Options();
 
     public static void main(String[] args) throws IOException {
         BibliotecaApp app = new BibliotecaApp();
         app.start();
+    }
+
+    public BibliotecaApp(InputStream in) {
+        this.in = in;
+    }
+
+    public BibliotecaApp() {
+        this.in = System.in;
     }
 
     public void start () throws IOException {
@@ -20,12 +28,14 @@ public class BibliotecaApp {
 
         while(true) {
             System.out.println("\nWhat would you like to do?");
-            BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+            BufferedReader br = new BufferedReader(new InputStreamReader(in));
             String input = br.readLine();
             if(input.equals("q")) return;
             runCommand(checkInput(input));
         }
     }
+
+
 
     public char checkInput(String input) throws IOException {
         if (input.equals("m")) {
@@ -46,13 +56,12 @@ public class BibliotecaApp {
                 else if (inputInt == 3) {
                     return 3;
                 }
-                else {
-                    System.err.println("Select a valid option!");
-                }
             } catch (NumberFormatException nfe) {
                 System.err.println("Select a valid option!");
+                return 0;
             }
         }
+        System.err.println("Select a valid option!");
         return 0;
     }
 

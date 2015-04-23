@@ -7,6 +7,8 @@ public class BibliotecaApp {
 
     final private InputStream in;
     final private OutputStream out;
+    private BufferedReader reader;
+    private PrintWriter writer;
 
     Library library = new Library();
 
@@ -15,14 +17,16 @@ public class BibliotecaApp {
         app.start();
     }
 
-    public BibliotecaApp(InputStream in, OutputStream out) {
-        this.in = in;
-        this.out = out;
-    }
-
     public BibliotecaApp() {
         in = System.in;
         out = System.out;
+    }
+
+    public BibliotecaApp(InputStream in, OutputStream out) {
+        this.in = in;
+        this.out = out;
+        reader = new BufferedReader(new InputStreamReader(in));
+        writer = new PrintWriter(out);
     }
 
     public void start () throws IOException {
@@ -32,10 +36,10 @@ public class BibliotecaApp {
 
         while(true) {
             System.out.println("\nWhat would you like to do?");
-            Scanner sc = new Scanner(in);
-            String input = sc.nextLine();
+            //Scanner sc = new Scanner(System.in);
+            //String input = sc.nextLine();
             //BufferedReader br = new BufferedReader(new InputStreamReader(systemIn));
-            //String input = br.readLine();
+            String input = reader.readLine();
 
             char charInput = convertInputToChar(input);
             if(charInput == 'q') return;
@@ -71,7 +75,10 @@ public class BibliotecaApp {
             case 3:
                 library.returnBook();
                 break;
-            default: System.err.println("Select a valid option!");
+            default:
+                //System.out.println("Select a valid option!");
+                writer.println("Select a valid option!");
+                break;
         }
     }
 

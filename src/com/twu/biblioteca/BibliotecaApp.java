@@ -30,14 +30,19 @@ public class BibliotecaApp {
             System.out.println("\nWhat would you like to do?");
             BufferedReader br = new BufferedReader(new InputStreamReader(in));
             String input = br.readLine();
-            if(input.equals("q")) return;
-            runCommand(checkInput(input));
+
+            char charInput = convertInputToChar(input);
+            if(charInput == 'q') return;
+            runCommand(charInput);
         }
     }
 
+    public char convertInputToChar(String input) {
+        return input.charAt(0);
+    }
 
+    /*public char checkInput(String input) throws IOException {
 
-    public char checkInput(String input) throws IOException {
         if (input.equals("m")) {
             return 'm';
         }
@@ -63,7 +68,7 @@ public class BibliotecaApp {
         }
         System.err.println("Select a valid option!");
         return 0;
-    }
+    }*/
 
     public void runCommand(char command) throws IOException {
         switch (command) {
@@ -85,6 +90,7 @@ public class BibliotecaApp {
                 String input2 = br2.readLine();
                 menuOptions.returnBook(input2);
                 break;
+            default: System.err.println("Select a valid option!");
         }
     }
 }

@@ -45,35 +45,14 @@ public class BibliotecaAppTest {
     }
 
     @Test
-    public void checkInputReturnsMGivenM() throws Exception {
-        assertEquals('m', new BibliotecaApp().checkInput("m"));
-    }
-
-    @Test
-    public void checkInputReturns1Given1() throws Exception {
-        assertEquals(1, new BibliotecaApp().checkInput("1"));
-    }
-
-    @Test
-    public void checkInputReturns2Given2() throws Exception {
-        assertEquals(2, new BibliotecaApp().checkInput("2"));
-    }
-
-    @Test
-    public void checkInputReturns3Given3() throws Exception {
-        assertEquals(3, new BibliotecaApp().checkInput("3"));
-    }
-
-    @Test
     public void invalidMenuOptionTest() throws Exception {
         ByteArrayInputStream testInput = new ByteArrayInputStream("P".getBytes());
         ByteArrayOutputStream errContent = new ByteArrayOutputStream();
-        //System.setErr(new PrintStream(errContent));
+        System.setErr(new PrintStream(errContent));
         BibliotecaApp app = new BibliotecaApp(testInput);
-        //BibliotecaApp app = new BibliotecaApp();
+
         app.start();
         //assertEquals(0, new BibliotecaApp().checkInput("P"));
-
 
         assertEquals("Select a valid option!\n", errContent.toString());
     }
@@ -119,4 +98,24 @@ public class BibliotecaAppTest {
         options.returnBook("The Great Gatsby");
         assertEquals("That is not a valid book to return.\n", outContent.toString());
     }
+
+    /*@Test
+    public void checkInputReturnsMGivenM() throws Exception {
+        assertEquals('m', new BibliotecaApp().checkInput("m"));
+    }
+
+    @Test
+    public void checkInputReturns1Given1() throws Exception {
+        assertEquals(1, new BibliotecaApp().checkInput("1"));
+    }
+
+    @Test
+    public void checkInputReturns2Given2() throws Exception {
+        assertEquals(2, new BibliotecaApp().checkInput("2"));
+    }
+
+    @Test
+    public void checkInputReturns3Given3() throws Exception {
+        assertEquals(3, new BibliotecaApp().checkInput("3"));
+    }*/
 }

@@ -5,7 +5,8 @@ import java.util.Scanner;
 
 public class BibliotecaApp {
 
-    final private InputStream systemIn;
+    final private InputStream in;
+    final private OutputStream out;
 
     Library library = new Library();
 
@@ -14,12 +15,14 @@ public class BibliotecaApp {
         app.start();
     }
 
-    public BibliotecaApp(InputStream systemIn) {
-        this.systemIn = systemIn;
+    public BibliotecaApp(InputStream in, OutputStream out) {
+        this.in = in;
+        this.out = out;
     }
 
     public BibliotecaApp() {
-        systemIn = System.in;
+        in = System.in;
+        out = System.out;
     }
 
     public void start () throws IOException {
@@ -29,7 +32,7 @@ public class BibliotecaApp {
 
         while(true) {
             System.out.println("\nWhat would you like to do?");
-            Scanner sc = new Scanner(systemIn);
+            Scanner sc = new Scanner(in);
             String input = sc.nextLine();
             //BufferedReader br = new BufferedReader(new InputStreamReader(systemIn));
             //String input = br.readLine();

@@ -45,7 +45,6 @@ public class BibliotecaAppTest {
 
     @Test
     public void invalidMenuOptionTest() throws Exception {
-        //ByteArrayOutputStream errContent = new ByteArrayOutputStream();
 
         InputStream testInput = new ByteArrayInputStream("P\nq".getBytes());
         OutputStream testOutput = new ByteArrayOutputStream();
@@ -53,11 +52,14 @@ public class BibliotecaAppTest {
         BibliotecaApp app = new BibliotecaApp(testInput, testOutput);
 
         app.start();
+
+        assertEquals("Select a valid option!\n", testOutput.toString());
+        //ByteArrayOutputStream errContent = new ByteArrayOutputStream();
         //System.setErr(new PrintStream(errContent));
         //assertEquals(0, new BibliotecaApp().checkInput("P"));
 
         //assertEquals("Select a valid option!\n", errContent.toString());
-        assertEquals("Select a valid option!\n", testOutput.toString());
+
 
     }
 

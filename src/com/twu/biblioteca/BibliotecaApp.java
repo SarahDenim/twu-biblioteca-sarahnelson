@@ -1,12 +1,11 @@
 package com.twu.biblioteca;
 
 import java.io.*;
-import java.util.Scanner;
 
 public class BibliotecaApp {
 
-    final private InputStream in;
-    final private OutputStream out;
+    private InputStream in;
+    private OutputStream out;
     private BufferedReader reader;
     private PrintWriter writer;
 
@@ -18,8 +17,8 @@ public class BibliotecaApp {
     }
 
     public BibliotecaApp() {
-        in = System.in;
-        out = System.out;
+        this.in = System.in;
+        this.out = System.out;
     }
 
     public BibliotecaApp(InputStream in, OutputStream out) {
@@ -39,9 +38,9 @@ public class BibliotecaApp {
             //Scanner sc = new Scanner(System.in);
             //String input = sc.nextLine();
             //BufferedReader br = new BufferedReader(new InputStreamReader(systemIn));
-            String input = reader.readLine();
+            //String input = reader.readLine();
 
-            char charInput = convertInputToChar(input);
+            char charInput = (char)reader.read();
             if(charInput == 'q') return;
             runCommand(charInput);
         }

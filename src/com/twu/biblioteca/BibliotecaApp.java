@@ -1,35 +1,38 @@
 package com.twu.biblioteca;
 
 import java.io.*;
+import java.util.Scanner;
 
 public class BibliotecaApp {
 
-    private InputStream in;
+    final private InputStream systemIn;
 
-    Options menuOptions = new Options();
+    Library library = new Library();
 
     public static void main(String[] args) throws IOException {
         BibliotecaApp app = new BibliotecaApp();
         app.start();
     }
 
-    public BibliotecaApp(InputStream in) {
-        this.in = in;
+    public BibliotecaApp(InputStream systemIn) {
+        this.systemIn = systemIn;
     }
 
     public BibliotecaApp() {
-        this.in = System.in;
+        systemIn = System.in;
     }
 
     public void start () throws IOException {
-        menuOptions.setUpBookList();
-        menuOptions.welcomeMessage();
-        menuOptions.mainMenu();
+        library.setUpBookList();
+        welcomeMessage();
+        mainMenu();
 
         while(true) {
             System.out.println("\nWhat would you like to do?");
-            BufferedReader br = new BufferedReader(new InputStreamReader(in));
-            String input = br.readLine();
+            Scanner sc = new Scanner(systemIn);
+            String input = sc.nextLine();
+            //BufferedReader br = new BufferedReader(new InputStreamReader(systemIn));
+            //String input = br.readLine();
 
             char charInput = convertInputToChar(input);
             if(charInput == 'q') return;
@@ -37,8 +40,36 @@ public class BibliotecaApp {
         }
     }
 
+    public void welcomeMessage() throws IOException {
+        System.out.println("Welcome to Biblioteca! We're ready to rumble!");
+    }
+
+    public void mainMenu() throws IOException {
+        System.out.println("Main menu: \n1. List Books \n2. Checkout book \n" +
+                "3. Return book \n\nCommands (use at any time) \nm: show main menu " +
+                "\nq: quit");
+    }
+
     public char convertInputToChar(String input) {
         return input.charAt(0);
+    }
+
+    public void runCommand(char command) throws IOException {
+        switch (command) {
+            case 'm':
+                mainMenu();
+                break;
+            case 1:
+                library.listBooks();
+                break;
+            case 2:
+                library.checkoutBook();
+                break;
+            case 3:
+                library.returnBook();
+                break;
+            default: System.err.println("Select a valid option!");
+        }
     }
 
     /*public char checkInput(String input) throws IOException {
@@ -70,27 +101,5 @@ public class BibliotecaApp {
         return 0;
     }*/
 
-    public void runCommand(char command) throws IOException {
-        switch (command) {
-            case 'm':
-                menuOptions.mainMenu();
-                break;
-            case 1:
-                menuOptions.listBooks();
-                break;
-            case 2:
-                System.out.println("Which book do you wish to check out?");
-                BufferedReader br1 = new BufferedReader(new InputStreamReader(System.in));
-                String input1 = br1.readLine();
-                menuOptions.checkoutBook(input1);
-                break;
-            case 3:
-                System.out.println("Which book do you wish to return?");
-                BufferedReader br2 = new BufferedReader(new InputStreamReader(System.in));
-                String input2 = br2.readLine();
-                menuOptions.returnBook(input2);
-                break;
-            default: System.err.println("Select a valid option!");
-        }
-    }
+
 }

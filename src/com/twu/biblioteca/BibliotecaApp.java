@@ -12,7 +12,7 @@ public class BibliotecaApp {
     private Library library;
 
     public static void main(String[] args) throws IOException {
-        BibliotecaApp app = new BibliotecaApp(System.in, System.out);
+        BibliotecaApp app = new BibliotecaApp();
         app.start();
     }
 
@@ -21,11 +21,11 @@ public class BibliotecaApp {
         this.out = System.out;
     }*/
 
-    public BibliotecaApp(InputStream in, OutputStream out) {
-        this.in = in;
-        this.out = out;
-        reader = new BufferedReader(new InputStreamReader(in));
-        writer = new PrintWriter(out);
+    public BibliotecaApp() {
+        //this.in = in;
+        //this.out = out;
+        reader = new BufferedReader(new InputStreamReader(System.in));
+        //writer = new PrintWriter(out);
         library = new Library();
     }
 
@@ -38,7 +38,7 @@ public class BibliotecaApp {
             System.out.println("\nWhat would you like to do?");
             //Scanner sc = new Scanner(System.in);
             //String input = sc.nextLine();
-            //BufferedReader br = new BufferedReader(new InputStreamReader(systemIn));
+            //BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
             //String input = reader.readLine();
 
             char charInput = (char)reader.read();
@@ -66,7 +66,7 @@ public class BibliotecaApp {
             case 'm':
                 mainMenu();
                 break;
-            case 1:
+            case '1':
                 library.listBooks();
                 break;
             case 2:
@@ -77,7 +77,7 @@ public class BibliotecaApp {
                 break;
             default:
                 System.out.println("Select a valid option!");
-                writer.println("Select a valid option!");
+                //writer.println("Select a valid option!");
                 break;
         }
     }

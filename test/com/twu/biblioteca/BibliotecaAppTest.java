@@ -10,7 +10,7 @@ import static org.junit.Assert.assertEquals;
 
 public class BibliotecaAppTest {
 
-    private final ByteArrayOutputStream outContent = new ByteArrayOutputStream();
+    //private final ByteArrayOutputStream outContent = new ByteArrayOutputStream();
 
     /*@Before
     public void setUpApp() throws IOException {
@@ -45,14 +45,20 @@ public class BibliotecaAppTest {
 
     @Test
     public void validMenuOptionTest() throws Exception {
-        InputStream testInput = new ByteArrayInputStream("mq".getBytes());
-        OutputStream testOutput = new ByteArrayOutputStream();
+        //ByteArrayInputStream testInput = new ByteArrayInputStream("1q".getBytes());
+        //System.setIn(testInput);
+        ByteArrayOutputStream testOutput = new ByteArrayOutputStream();
+        System.setOut(new PrintStream(testOutput));
 
-        BibliotecaApp app = new BibliotecaApp(testInput, testOutput);
-        app.start();
+        //InputStream testInput = new ByteArrayInputStream("mq".getBytes());
+        //OutputStream testOutput = new ByteArrayOutputStream();
+
+        BibliotecaApp app = new BibliotecaApp();
+        //app.start();
+        app.runCommand('m');
         assertEquals("Main menu: \n1. List Books \n2. Checkout book \n" +
                 "3. Return book \n\nCommands (use at any time) \nm: show main menu " +
-                "\nq: quit", testOutput.toString());
+                "\nq: quit\n", testOutput.toString());
     }
 
     @Test
@@ -62,7 +68,7 @@ public class BibliotecaAppTest {
         InputStream testInput = new ByteArrayInputStream("".getBytes());
         OutputStream testOutput = new ByteArrayOutputStream();
 
-        BibliotecaApp app = new BibliotecaApp(testInput, testOutput);
+        BibliotecaApp app = new BibliotecaApp();
 
         //app.start();
 
@@ -83,7 +89,7 @@ public class BibliotecaAppTest {
         InputStream testInput = new ByteArrayInputStream("Pq".getBytes());
         OutputStream testOutput = new ByteArrayOutputStream();
 
-        BibliotecaApp app = new BibliotecaApp(testInput, testOutput);
+        BibliotecaApp app = new BibliotecaApp();
 
         Library library = new Library();
         library.setUpBookList();

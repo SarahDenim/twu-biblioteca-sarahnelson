@@ -49,6 +49,16 @@ public class Library {
         return checkedOutBooks;
     }
 
+    public List<Movie> getCheckedOutMovies() {
+        List<Movie> checkedOutMovies = new ArrayList<Movie>();
+        for(Movie m:movieList) {
+            if(!m.isCheckedIn()) {
+                checkedOutMovies.add(m);
+            }
+        }
+        return checkedOutMovies;
+    }
+
     public void setUpBookList() {
         Book Gatsby = new Book("The Great Gatsby", "F. Scott Fitzgerald", 1925);
         Book Rings = new Book("The Lord of the Rings", "J.R.R. Tolkien", 1954);

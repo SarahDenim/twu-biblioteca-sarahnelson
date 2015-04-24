@@ -7,6 +7,7 @@ public class Options {
     private BufferedReader reader;
     private PrintStream writer;
     private Library library;
+    private UserList userList;
 
     public Options(InputStream in, OutputStream out) {
         reader = new BufferedReader(new InputStreamReader(in));
@@ -14,6 +15,8 @@ public class Options {
         library = new Library();
         library.setUpBookList();
         library.setUpMovieList();
+        userList = new UserList();
+        userList.setUpUserList();
     }
 
     public void listBooks() throws IOException {
@@ -88,4 +91,29 @@ public class Options {
             writer.println("That is not a valid book to return.");
         }
     }
+
+    public void returnMovie() throws IOException {
+        writer.println("Which movie do you wish to return?");
+        String movie = reader.readLine();
+
+        boolean success = false;
+        for(Movie m:library.getCheckedOutMovies()) {
+            if (m.getName().equals(movie)) {
+                m.checkIn();
+                writer.println("Thank you for returning the movie.");
+                success = true;
+            }
+        }
+        if (!success) {
+            writer.println("That is not a valid movie to return.");
+        }
+    }
+
+    public void login() {
+        writer.println("You will need to login to do that.\nUsername: ");
+        writer.println("Password: ");
+        userList.getUser("sarahn").login();
+        writer.println("Login successful");
+    }
+
 }

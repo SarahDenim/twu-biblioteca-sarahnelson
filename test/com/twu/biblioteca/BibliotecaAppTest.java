@@ -1,7 +1,5 @@
 package com.twu.biblioteca;
 
-import org.junit.After;
-import org.junit.Before;
 import org.junit.Test;
 
 import java.io.*;
@@ -10,51 +8,34 @@ import static org.junit.Assert.assertEquals;
 
 public class BibliotecaAppTest {
 
-    //private final ByteArrayOutputStream outContent = new ByteArrayOutputStream();
-
-    /*@Before
-    public void setUpApp() throws IOException {
-        ByteArrayInputStream inContent = new ByteArrayInputStream("1".getBytes());
-        System.setIn(inContent);
-    }*/
-
-    @Before
-    public void setUpStreams() {
-        //System.setOut(new PrintStream(outContent));
-        //System.setErr(new PrintStream(errContent));
-    }
-
-    @After
-    public void cleanUpStreams() {
-        //System.setOut(null);
-    }
-
-    /*@Test
+    @Test
     public void welcomeMessageTest() throws Exception {
-        new BibliotecaApp().welcomeMessage();
-        assertEquals("Welcome to Biblioteca! We're ready to rumble!\n", outContent.toString());
+        InputStream testInput = new ByteArrayInputStream("".getBytes());
+        OutputStream testOutput = new ByteArrayOutputStream();
+
+        BibliotecaApp app = new BibliotecaApp(testInput,testOutput);
+        app.welcomeMessage();
+        assertEquals("Welcome to Biblioteca! We're ready to rumble!\n", testOutput.toString());
     }
 
     @Test
     public void mainMenuTest() throws Exception {
-        new BibliotecaApp().mainMenu();
+        InputStream testInput = new ByteArrayInputStream("".getBytes());
+        OutputStream testOutput = new ByteArrayOutputStream();
+
+        BibliotecaApp app = new BibliotecaApp(testInput,testOutput);
+        app.mainMenu();
         assertEquals("Main menu: \n1. List Books \n2. Checkout book \n" +
                 "3. Return book \n\nCommands (use at any time) \nm: show main menu " +
-                "\nq: quit\n", outContent.toString());
-    }*/
+                "\nq: quit\n", testOutput.toString());
+    }
 
     @Test
     public void validMenuOptionTest() throws Exception {
-        //ByteArrayInputStream testInput = new ByteArrayInputStream("1q".getBytes());
-        //System.setIn(testInput);
-        ByteArrayOutputStream testOutput = new ByteArrayOutputStream();
-        System.setOut(new PrintStream(testOutput));
+        InputStream testInput = new ByteArrayInputStream("".getBytes());
+        OutputStream testOutput = new ByteArrayOutputStream();
 
-        //InputStream testInput = new ByteArrayInputStream("mq".getBytes());
-        //OutputStream testOutput = new ByteArrayOutputStream();
-
-        BibliotecaApp app = new BibliotecaApp();
-        //app.start();
+        BibliotecaApp app = new BibliotecaApp(testInput,testOutput);
         app.runCommand('m');
         assertEquals("Main menu: \n1. List Books \n2. Checkout book \n" +
                 "3. Return book \n\nCommands (use at any time) \nm: show main menu " +
@@ -63,95 +44,67 @@ public class BibliotecaAppTest {
 
     @Test
     public void invalidMenuOptionTest() throws Exception {
-
-        //InputStream testInput = new ByteArrayInputStream("Pq".getBytes());
         InputStream testInput = new ByteArrayInputStream("".getBytes());
-        OutputStream testOutput = new ByteArrayOutputStream();
+        ByteArrayOutputStream testOutput = new ByteArrayOutputStream();
+        System.setOut(new PrintStream(testOutput));
 
-        BibliotecaApp app = new BibliotecaApp();
-
-        //app.start();
+        BibliotecaApp app = new BibliotecaApp(testInput, testOutput);
 
         app.runCommand('P');
 
         assertEquals("Select a valid option!\n", testOutput.toString());
-        //ByteArrayOutputStream errContent = new ByteArrayOutputStream();
-        //System.setErr(new PrintStream(errContent));
-        //assertEquals(0, new BibliotecaApp().checkInput("P"));
-
-        //assertEquals("Select a valid option!\n", errContent.toString());
-
-
     }
 
     @Test
     public void listBooksTest() throws IOException {
-        InputStream testInput = new ByteArrayInputStream("Pq".getBytes());
+        InputStream testInput = new ByteArrayInputStream("".getBytes());
         OutputStream testOutput = new ByteArrayOutputStream();
 
-        BibliotecaApp app = new BibliotecaApp();
+        BibliotecaApp app = new BibliotecaApp(testInput, testOutput);
+        app.runCommand('1');
 
-        Library library = new Library();
-        library.setUpBookList();
-        library.listBooks();
         assertEquals("The Great Gatsby by F. Scott Fitzgerald, 1925\n" +
                 "The Lord of the Rings by J.R.R. Tolkien, 1954\n", testOutput.toString());
     }
 
-    /*@Test
-    public void checkOutAvailableBookTest() {
-        Library library = new Library();
-        library.setUpBookList();
-        library.checkoutBook("The Great Gatsby");
-        assertEquals("Thank you! Enjoy the book.\n", outContent.toString());
+    @Test
+    public void checkOutAvailableBookTest() throws IOException {
+        InputStream testInput = new ByteArrayInputStream("The Great Gatsby\n".getBytes());
+        OutputStream testOutput = new ByteArrayOutputStream();
+
+        Options options = new Options(testInput, testOutput);
+        options.checkoutBook();
+        assertEquals("Which book do you wish to check out?\nThank you! Enjoy the book.\n", testOutput.toString());
     }
 
     @Test
-    public void unsuccessfullyCheckOutUnavailableBookTest() {
-        Library library = new Library();
-        library.setUpBookList();
-        library.checkoutBook("The Flying Cats");
-        assertEquals("That book is not available.\n", outContent.toString());
+    public void unsuccessfullyCheckOutUnavailableBookTest() throws IOException {
+        InputStream testInput = new ByteArrayInputStream("The Flying Cats".getBytes());
+        OutputStream testOutput = new ByteArrayOutputStream();
+
+        Options options = new Options(testInput, testOutput);
+        options.checkoutBook();
+        assertEquals("Which book do you wish to check out?\nThat book is not available.\n", testOutput.toString());
     }
 
     @Test
-    public void SuccessfullyReturnAvailableBookTest() {
-        Library library = new Library();
-        library.setUpBookList();
-        library.checkoutBook("The Great Gatsby");
-        library.returnBook("The Great Gatsby");
-        assertEquals("Thank you! Enjoy the book.\nThank you for returning the book.\n", outContent.toString());
+    public void SuccessfullyReturnAvailableBookTest() throws IOException {
+        InputStream testInput = new ByteArrayInputStream("The Great Gatsby\nThe Great Gatsby".getBytes());
+        OutputStream testOutput = new ByteArrayOutputStream();
+
+        Options options = new Options(testInput, testOutput);
+        options.checkoutBook();
+        options.returnBook();
+        assertEquals("Which book do you wish to check out?\nThank you! Enjoy the book.\nWhich book do you wish " +
+                "to return?\nThank you for returning the book.\n", testOutput.toString());
     }
 
     @Test
-    public void UnsuccessfullyReturnUnavailableBookTest() {
-        Library library = new Library();
-        library.setUpBookList();
-        library.returnBook("The Great Gatsby");
-        assertEquals("That is not a valid book to return.\n", outContent.toString());
-    }*/
-
-
-
-
-
-    /*@Test
-    public void checkInputReturnsMGivenM() throws Exception {
-        assertEquals('m', new BibliotecaApp().checkInput("m"));
+    public void UnsuccessfullyReturnUnavailableBookTest() throws IOException {
+        InputStream testInput = new ByteArrayInputStream("The Great Gatsby".getBytes());
+        OutputStream testOutput = new ByteArrayOutputStream();
+        Options options = new Options(testInput, testOutput);
+        options.returnBook();
+        assertEquals("Which book do you wish to return?\nThat is not a valid book to return.\n", testOutput.toString());
     }
-
-    @Test
-    public void checkInputReturns1Given1() throws Exception {
-        assertEquals(1, new BibliotecaApp().checkInput("1"));
-    }
-
-    @Test
-    public void checkInputReturns2Given2() throws Exception {
-        assertEquals(2, new BibliotecaApp().checkInput("2"));
-    }
-
-    @Test
-    public void checkInputReturns3Given3() throws Exception {
-        assertEquals(3, new BibliotecaApp().checkInput("3"));
-    }*/
 }

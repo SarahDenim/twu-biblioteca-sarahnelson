@@ -9,23 +9,24 @@ public class BibliotecaApp {
     private BufferedReader reader;
     private PrintWriter writer;
 
-    Library library = new Library();
+    private Library library;
 
     public static void main(String[] args) throws IOException {
-        BibliotecaApp app = new BibliotecaApp();
+        BibliotecaApp app = new BibliotecaApp(System.in, System.out);
         app.start();
     }
 
-    public BibliotecaApp() {
+    /*public BibliotecaApp() {
         this.in = System.in;
         this.out = System.out;
-    }
+    }*/
 
     public BibliotecaApp(InputStream in, OutputStream out) {
         this.in = in;
         this.out = out;
         reader = new BufferedReader(new InputStreamReader(in));
         writer = new PrintWriter(out);
+        library = new Library();
     }
 
     public void start () throws IOException {
@@ -75,7 +76,7 @@ public class BibliotecaApp {
                 library.returnBook();
                 break;
             default:
-                //System.out.println("Select a valid option!");
+                System.out.println("Select a valid option!");
                 writer.println("Select a valid option!");
                 break;
         }

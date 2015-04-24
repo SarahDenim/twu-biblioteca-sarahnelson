@@ -20,16 +20,16 @@ public class BibliotecaAppTest {
 
     @Before
     public void setUpStreams() {
-        System.setOut(new PrintStream(outContent));
+        //System.setOut(new PrintStream(outContent));
         //System.setErr(new PrintStream(errContent));
     }
 
     @After
     public void cleanUpStreams() {
-        System.setOut(null);
+        //System.setOut(null);
     }
 
-    @Test
+    /*@Test
     public void welcomeMessageTest() throws Exception {
         new BibliotecaApp().welcomeMessage();
         assertEquals("Welcome to Biblioteca! We're ready to rumble!\n", outContent.toString());
@@ -41,17 +41,32 @@ public class BibliotecaAppTest {
         assertEquals("Main menu: \n1. List Books \n2. Checkout book \n" +
                 "3. Return book \n\nCommands (use at any time) \nm: show main menu " +
                 "\nq: quit\n", outContent.toString());
+    }*/
+
+    @Test
+    public void validMenuOptionTest() throws Exception {
+        InputStream testInput = new ByteArrayInputStream("mq".getBytes());
+        OutputStream testOutput = new ByteArrayOutputStream();
+
+        BibliotecaApp app = new BibliotecaApp(testInput, testOutput);
+        app.start();
+        assertEquals("Main menu: \n1. List Books \n2. Checkout book \n" +
+                "3. Return book \n\nCommands (use at any time) \nm: show main menu " +
+                "\nq: quit", testOutput.toString());
     }
 
     @Test
     public void invalidMenuOptionTest() throws Exception {
 
-        InputStream testInput = new ByteArrayInputStream("P\nq".getBytes());
+        //InputStream testInput = new ByteArrayInputStream("Pq".getBytes());
+        InputStream testInput = new ByteArrayInputStream("".getBytes());
         OutputStream testOutput = new ByteArrayOutputStream();
 
         BibliotecaApp app = new BibliotecaApp(testInput, testOutput);
 
-        app.start();
+        //app.start();
+
+        app.runCommand('P');
 
         assertEquals("Select a valid option!\n", testOutput.toString());
         //ByteArrayOutputStream errContent = new ByteArrayOutputStream();
@@ -65,11 +80,16 @@ public class BibliotecaAppTest {
 
     @Test
     public void listBooksTest() throws IOException {
+        InputStream testInput = new ByteArrayInputStream("Pq".getBytes());
+        OutputStream testOutput = new ByteArrayOutputStream();
+
+        BibliotecaApp app = new BibliotecaApp(testInput, testOutput);
+
         Library library = new Library();
         library.setUpBookList();
         library.listBooks();
         assertEquals("The Great Gatsby by F. Scott Fitzgerald, 1925\n" +
-                     "The Lord of the Rings by J.R.R. Tolkien, 1954\n", outContent.toString());
+                "The Lord of the Rings by J.R.R. Tolkien, 1954\n", testOutput.toString());
     }
 
     /*@Test

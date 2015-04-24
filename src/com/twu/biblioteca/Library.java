@@ -9,7 +9,7 @@ import java.util.List;
 public class Library {
 
     private List<Book> bookList = new ArrayList<Book>();
-    private List<Movie> movieList = new ArrayList<Movie>();
+    //private List<Movie> movieList = new ArrayList<Movie>();
 
     public void setUpBookList() {
     Book Gatsby = new Book("The Great Gatsby", "F. Scott Fitzgerald", 1925);
@@ -29,7 +29,7 @@ public class Library {
         }
     }
 
-    public void listMovies() {
+    /*public void listMovies() {
         for (Movie m:movieList) {
             if(m.isCheckedIn()){
                 System.out.print(m.getName() + " by ");
@@ -38,7 +38,7 @@ public class Library {
                 System.out.println(m.getRating());
             }
         }
-    }
+    }*/
 
     public void checkoutBook() throws IOException {
         System.out.println("Which book do you wish to check out?");

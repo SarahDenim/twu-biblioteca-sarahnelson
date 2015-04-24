@@ -1,61 +1,50 @@
 package com.twu.biblioteca;
 
 import java.io.*;
-import java.util.ArrayList;
-import java.util.List;
 
 public class Options {
 
     private BufferedReader reader;
     private PrintStream writer;
-    //private Library library;
-    private List<Book> bookList = new ArrayList<Book>();
-    //private List<Movie> movieList = new ArrayList<Movie>();
+    private Library library;
 
     public Options(InputStream in, OutputStream out) {
         reader = new BufferedReader(new InputStreamReader(in));
         writer = new PrintStream(out);
-        //library = new Library;
-        setUpBookList();
-    }
-
-    public void setUpBookList() {
-    Book Gatsby = new Book("The Great Gatsby", "F. Scott Fitzgerald", 1925);
-    Book Rings = new Book("The Lord of the Rings", "J.R.R. Tolkien", 1954);
-
-    bookList.add(Gatsby);
-    bookList.add(Rings);
+        library = new Library();
+        library.setUpBookList();
+        library.setUpMovieList();
     }
 
     public void listBooks() throws IOException {
-        for (Book b:bookList) {
-            if(b.isCheckedIn()){
-                writer.print(b.getName() + " by ");
-                writer.print(b.getAuthor() + ", ");
-                writer.println(b.getYearPublished());
+        for (Book b:library.getCheckedInBooks()) {
+            writer.print(b.getName() + " by ");
+            writer.print(b.getAuthor() + ", ");
+            writer.println(b.getYearPublished());
+        }
+    }
+
+    public void listMovies() {
+        for (Movie m:library.getCheckedInMovies()) {
+            writer.print(m.getName() + " by ");
+            writer.print(m.getDirector() + ", ");
+            writer.print(m.getYear() + ", ");
+            if (m.getRating() == 0) {
+                writer.println("unrated");
+            }
+            else {
+                writer.println(m.getRating());
             }
         }
     }
 
-    /*public void listMovies() {
-        for (Movie m:movieList) {
-            if(m.isCheckedIn()){
-                System.out.print(m.getName() + " by ");
-                System.out.print(m.getDirector() + ", ");
-                System.out.print(m.getYear());
-                System.out.println(m.getRating());
-            }
-        }
-    }*/
-
     public void checkoutBook() throws IOException {
         writer.println("Which book do you wish to check out?");
-        //BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         String book = reader.readLine();
 
         boolean success = false;
-        for(Book b:bookList) {
-            if (b.getName().equals(book) && (b.isCheckedIn())) {
+        for(Book b:library.getCheckedInBooks()) {
+            if (b.getName().equals(book)) {
                 b.checkOut();
                 writer.println("Thank you! Enjoy the book.");
                 success = true;
@@ -66,13 +55,30 @@ public class Options {
         }
     }
 
+    public void checkoutMovie() throws IOException {
+        writer.println("Which movie do you wish to check out?");
+        String movie = reader.readLine();
+
+        boolean success = false;
+        for(Movie m:library.getCheckedInMovies()) {
+            if (m.getName().equals(movie)) {
+                m.checkOut();
+                writer.println("Thank you! Enjoy the movie.");
+                success = true;
+            }
+        }
+        if (!success) {
+            writer.println("That movie is not available.");
+        }
+    }
+
     public void returnBook() throws IOException {
         writer.println("Which book do you wish to return?");
         String book = reader.readLine();
 
         boolean success = false;
-        for(Book b:bookList) {
-            if (b.getName().equals(book) && (!b.isCheckedIn())) {
+        for(Book b:library.getCheckedOutBooks()) {
+            if (b.getName().equals(book)) {
                 b.checkIn();
                 writer.println("Thank you for returning the book.");
                 success = true;
@@ -82,5 +88,4 @@ public class Options {
             writer.println("That is not a valid book to return.");
         }
     }
-
 }

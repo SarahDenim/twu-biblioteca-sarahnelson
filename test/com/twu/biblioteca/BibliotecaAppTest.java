@@ -68,6 +68,18 @@ public class BibliotecaAppTest {
     }
 
     @Test
+    public void listMoviesTest() throws IOException {
+        InputStream testInput = new ByteArrayInputStream("".getBytes());
+        OutputStream testOutput = new ByteArrayOutputStream();
+
+        BibliotecaApp app = new BibliotecaApp(testInput, testOutput);
+        app.runCommand('4');
+
+        assertEquals("The Grand Budapest Hotel by Wes Anderson, 2014, 8\n" +
+                "Finding Nemo by Andrew Stanton, 2003, 8\n", testOutput.toString());
+    }
+
+    @Test
     public void checkOutAvailableBookTest() throws IOException {
         InputStream testInput = new ByteArrayInputStream("The Great Gatsby\n".getBytes());
         OutputStream testOutput = new ByteArrayOutputStream();
@@ -101,6 +113,47 @@ public class BibliotecaAppTest {
 
     @Test
     public void UnsuccessfullyReturnUnavailableBookTest() throws IOException {
+        InputStream testInput = new ByteArrayInputStream("The Great Gatsby".getBytes());
+        OutputStream testOutput = new ByteArrayOutputStream();
+        Options options = new Options(testInput, testOutput);
+        options.returnBook();
+        assertEquals("Which book do you wish to return?\nThat is not a valid book to return.\n", testOutput.toString());
+    }
+
+    @Test
+    public void checkOutAvailableMovieTest() throws IOException {
+        InputStream testInput = new ByteArrayInputStream("The Grand Budapest Hotel\n".getBytes());
+        OutputStream testOutput = new ByteArrayOutputStream();
+
+        Options options = new Options(testInput, testOutput);
+        options.checkoutMovie();
+        assertEquals("Which movie do you wish to check out?\nThank you! Enjoy the movie.\n", testOutput.toString());
+    }
+
+    @Test
+    public void unsuccessfullyCheckOutUnavailableMovieTest() throws IOException {
+        InputStream testInput = new ByteArrayInputStream("The Flying Cats".getBytes());
+        OutputStream testOutput = new ByteArrayOutputStream();
+
+        Options options = new Options(testInput, testOutput);
+        options.checkoutMovie();
+        assertEquals("Which movie do you wish to check out?\nThat movie is not available.\n", testOutput.toString());
+    }
+
+    @Test
+    public void SuccessfullyReturnAvailableMovieTest() throws IOException {
+        InputStream testInput = new ByteArrayInputStream("The Grand Budapest Hotel\nThe Grand Budapest Hotel".getBytes());
+        OutputStream testOutput = new ByteArrayOutputStream();
+
+        Options options = new Options(testInput, testOutput);
+        options.checkoutBook();
+        options.returnBook();
+        assertEquals("Which movie do you wish to check out?\nThank you! Enjoy the movie.\nWhich movie do you wish " +
+                "to return?\nThank you for returning the movie.\n", testOutput.toString());
+    }
+
+    @Test
+    public void UnsuccessfullyReturnUnavailableMovieTest() throws IOException {
         InputStream testInput = new ByteArrayInputStream("The Great Gatsby".getBytes());
         OutputStream testOutput = new ByteArrayOutputStream();
         Options options = new Options(testInput, testOutput);

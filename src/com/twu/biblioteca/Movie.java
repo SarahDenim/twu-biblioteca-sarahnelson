@@ -3,7 +3,7 @@ package com.twu.biblioteca;
 /**
  * Created by sarahnelson on 23/04/2015.
  */
-/*public class Movie {
+public class Movie {
     private String name;
     private int year;
     private String director;
@@ -45,4 +45,3 @@ package com.twu.biblioteca;
         return checkedIn;
     }
 }
-*/

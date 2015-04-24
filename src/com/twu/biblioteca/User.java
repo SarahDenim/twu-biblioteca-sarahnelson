@@ -17,6 +17,8 @@ public class User {
         return username;
     }
 
+    public String getUserPassword() { return password; }
+
     public boolean isLoggedIn() {
         return isLoggedIn;
     }

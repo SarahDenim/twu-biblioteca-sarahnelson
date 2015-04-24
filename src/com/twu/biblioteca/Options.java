@@ -109,11 +109,20 @@ public class Options {
         }
     }
 
-    public void login() {
+    public void login() throws IOException {
         writer.println("You will need to login to do that.\nUsername: ");
-        writer.println("Password: ");
-        userList.getUser("sarahn").login();
-        writer.println("Login successful");
+        for (User u:userList.getUserList()) {
+            if (reader.readLine().equals(u.getUsername())) {
+                writer.println("Password: ");
+                if (reader.readLine().equals(u.getUserPassword())) {
+                    u.login();
+                    writer.println("Login successful");
+                } else {
+                    writer.println("Login unsuccessful");
+                }
+            } else {
+                writer.println("That username does not match any in our records");
+            }
+        }
     }
-
 }

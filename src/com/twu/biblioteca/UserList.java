@@ -25,4 +25,8 @@ public class UserList {
         addUser(Sarah);
         addUser(Bob);
     }
+
+    public List<User> getUserList() {
+        return userList;
+    }
 }

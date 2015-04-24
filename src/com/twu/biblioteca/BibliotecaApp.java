@@ -64,6 +64,9 @@ public class BibliotecaApp {
             case '4':
                 options.listMovies();
                 break;
+            case '5':
+                options.checkoutMovie();
+                break;
             default:
                 writer.println("Select a valid option!");
                 break;

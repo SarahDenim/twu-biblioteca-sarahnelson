@@ -178,10 +178,15 @@ public class BibliotecaAppTest {
     @Test
     public void loginTestThroughOptions() throws IOException {
         InputStream testInput = new ByteArrayInputStream("111-2345\npassword".getBytes());
+
         OutputStream testOutput = new ByteArrayOutputStream();
         Options options = new Options(testInput, testOutput);
+        UserList userList = new UserList();
+        userList.setUpUserList();
         options.login();
+
         assertEquals("You will need to login to do that.\nLibrary Number: Password: Login successful\n", testOutput.toString());
+
     }
 
     @Test

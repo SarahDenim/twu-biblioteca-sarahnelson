@@ -19,6 +19,8 @@ public class User {
         return id;
     }
 
+    public String getUserPassword() { return password; }
+
     public boolean isLoggedIn() {
         return isLoggedIn;
     }

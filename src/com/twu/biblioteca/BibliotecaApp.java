@@ -60,6 +60,9 @@ public class BibliotecaApp {
                 options.listMovies();
                 break;
             case '5':
+                options.checkoutMovie();
+                break;
+            case '6':
                 if(options.isLoggedIn()) { options.displayDetails(); }
                 break;
             default:

@@ -21,7 +21,7 @@ public class BibliotecaApp {
 
     public void start () throws IOException {
         welcomeMessage();
-        mainMenu();
+        options.mainMenu();
 
         while(true) {
             writer.println("\nWhat would you like to do?");
@@ -41,21 +41,16 @@ public class BibliotecaApp {
         writer.println("Welcome to Biblioteca! We're ready to rumble!");
     }
 
-    public void mainMenu() throws IOException {
-        writer.println("Main menu: \n1. List Books \n2. Checkout book \n" +
-                "3. Return book \n\nCommands (use at any time) \nm: show main menu " +
-                "\nq: quit");
-    }
-
     public void runCommand(char command) throws IOException {
         switch (command) {
             case 'm':
-                mainMenu();
+                options.mainMenu();
                 break;
             case '1':
                 options.listBooks();
                 break;
             case '2':
+                options.login();
                 options.checkoutBook();
                 break;
             case '3':
@@ -63,6 +58,9 @@ public class BibliotecaApp {
                 break;
             case '4':
                 options.listMovies();
+                break;
+            case '5':
+                if(options.isLoggedIn()) { options.displayDetails(); }
                 break;
             default:
                 writer.println("Select a valid option!");

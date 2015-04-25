@@ -20,31 +20,47 @@ public class BibliotecaAppTest {
     }
 
     @Test
-    public void mainMenuTest() throws Exception {
+    public void mainMenuTestWhenLoggedOut() throws Exception {
         InputStream testInput = new ByteArrayInputStream("".getBytes());
         OutputStream testOutput = new ByteArrayOutputStream();
 
-        BibliotecaApp app = new BibliotecaApp(testInput,testOutput);
-        app.mainMenu();
-        assertEquals("Main menu: \n1. List Books \n2. Checkout book \n" +
-                "3. Return book \n\nCommands (use at any time) \nm: show main menu " +
+        Options options = new Options(testInput,testOutput);
+        options.mainMenu();
+        assertEquals("Main Menu: \n1. List Books \n2. Checkout Book \n" +
+                "3. Return Book \n4. List Movies \n\nCommands (use at any time) \nm: show main menu " +
                 "\nq: quit\n", testOutput.toString());
     }
 
     @Test
-    public void validMenuOptionTest() throws Exception {
+    public void mainMenuTestWhenLoggedIn() throws Exception {
+        InputStream testInput = new ByteArrayInputStream("111-2345\npassword".getBytes());
+        OutputStream testOutput = new ByteArrayOutputStream();
+
+        Options options = new Options(testInput, testOutput);
+
+        options.login();
+        options.mainMenu();
+
+        assertEquals("You will need to login to do that.\n" +
+                "Library Number: Password: Login successful\nMain Menu: \n1. List Books \n2. Checkout Book \n" +
+                "3. Return Book \n4. List Movies \n5. Show User Details \n\nCommands (use at any time) \nm: show main menu " +
+                "\nq: quit\n", testOutput.toString());
+    }
+
+    @Test
+    public void validCommandTest() throws Exception {
         InputStream testInput = new ByteArrayInputStream("".getBytes());
         OutputStream testOutput = new ByteArrayOutputStream();
 
         BibliotecaApp app = new BibliotecaApp(testInput,testOutput);
         app.runCommand('m');
-        assertEquals("Main menu: \n1. List Books \n2. Checkout book \n" +
-                "3. Return book \n\nCommands (use at any time) \nm: show main menu " +
+        assertEquals("Main Menu: \n1. List Books \n2. Checkout Book \n" +
+                "3. Return Book \n4. List Movies \n\nCommands (use at any time) \nm: show main menu " +
                 "\nq: quit\n", testOutput.toString());
     }
 
     @Test
-    public void invalidMenuOptionTest() throws Exception {
+    public void invalidCommandTest() throws Exception {
         InputStream testInput = new ByteArrayInputStream("".getBytes());
         ByteArrayOutputStream testOutput = new ByteArrayOutputStream();
         System.setOut(new PrintStream(testOutput));
@@ -97,7 +113,7 @@ public class BibliotecaAppTest {
     }
 
     @Test
-    public void SuccessfullyReturnAvailableBookTest() throws IOException {
+    public void successfullyReturnAvailableBookTest() throws IOException {
         InputStream testInput = new ByteArrayInputStream("The Great Gatsby\nThe Great Gatsby".getBytes());
         OutputStream testOutput = new ByteArrayOutputStream();
         Options options = new Options(testInput, testOutput);
@@ -109,7 +125,7 @@ public class BibliotecaAppTest {
     }
 
     @Test
-    public void UnsuccessfullyReturnUnavailableBookTest() throws IOException {
+    public void unsuccessfullyReturnUnavailableBookTest() throws IOException {
         InputStream testInput = new ByteArrayInputStream("The Great Gatsby".getBytes());
         OutputStream testOutput = new ByteArrayOutputStream();
         Options options = new Options(testInput, testOutput);
@@ -139,7 +155,7 @@ public class BibliotecaAppTest {
     }
 
     @Test
-    public void SuccessfullyReturnAvailableMovieTest() throws IOException {
+    public void successfullyReturnAvailableMovieTest() throws IOException {
         InputStream testInput = new ByteArrayInputStream("The Grand Budapest Hotel\nThe Grand Budapest Hotel".getBytes());
         OutputStream testOutput = new ByteArrayOutputStream();
         Options options = new Options(testInput, testOutput);
@@ -151,7 +167,7 @@ public class BibliotecaAppTest {
     }
 
     @Test
-    public void UnsuccessfullyReturnUnavailableMovieTest() throws IOException {
+    public void unsuccessfullyReturnUnavailableMovieTest() throws IOException {
         InputStream testInput = new ByteArrayInputStream("The Grand Budapest Hotel".getBytes());
         OutputStream testOutput = new ByteArrayOutputStream();
         Options options = new Options(testInput, testOutput);
@@ -160,22 +176,31 @@ public class BibliotecaAppTest {
     }
 
     @Test
-    public void LoginOutputTest() {
-        InputStream testInput = new ByteArrayInputStream("sarahn\npassword".getBytes());
+    public void loginTestThroughOptions() throws IOException {
+        InputStream testInput = new ByteArrayInputStream("111-2345\npassword".getBytes());
         OutputStream testOutput = new ByteArrayOutputStream();
         Options options = new Options(testInput, testOutput);
         options.login();
-        assertEquals("You will need to login to do that.\nUsername: \nPassword: \nLogin successful\n", testOutput.toString());
+        assertEquals("You will need to login to do that.\nLibrary Number: Password: Login successful\n", testOutput.toString());
     }
 
     @Test
-    public void UserIsLoggedInAfterLoggingInTest() {
-        InputStream testInput = new ByteArrayInputStream("sarahn\npassword".getBytes());
-        OutputStream testOutput = new ByteArrayOutputStream();
-        //Options options = new Options(testInput, testOutput);
+    public void loginTestThroughUser() {
         UserList userList = new UserList();
         userList.setUpUserList();
-        userList.getUser("sarahn").login();
-        assertTrue(userList.getUser("sarahn").isLoggedIn());
+        userList.getUser("111-2345").login("111-2345", "password");
+        assertTrue(userList.getUser("111-2345").isLoggedIn());
+    }
+
+    @Test
+    public void displayUserDetails() throws IOException {
+        InputStream testInput = new ByteArrayInputStream("111-2345\npassword".getBytes());
+        OutputStream testOutput = new ByteArrayOutputStream();
+        Options options = new Options(testInput, testOutput);
+        options.login();
+        options.displayDetails();
+        assertEquals("You will need to login to do that.\n" +
+                "Library Number: Password: Login successful\n" +
+                "111-2345 sarahnelson@gmail.com 0712345678\n", testOutput.toString());
     }
 }

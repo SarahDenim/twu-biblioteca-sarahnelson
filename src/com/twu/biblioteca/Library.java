@@ -7,8 +7,13 @@ public class Library {
     private List<Book> bookList = new ArrayList<Book>();
     private List<Movie> movieList = new ArrayList<Movie>();
 
-    public List<Book> getBookList() {
-        return bookList;
+    public Book getBook(String name) {
+        for (Book b:bookList) {
+            if (b.getName().equals(name)) {
+                return b;
+            }
+        }
+        return null;
     }
 
     public void addBook(Book book) {
@@ -17,6 +22,22 @@ public class Library {
 
     public void addMovie(Movie movie) {
         movieList.add(movie);
+    }
+
+    public void setUpBookList() {
+        Book Gatsby = new Book("The Great Gatsby", "F. Scott Fitzgerald", 1925);
+        Book Rings = new Book("The Lord of the Rings", "J.R.R. Tolkien", 1954);
+
+        addBook(Gatsby);
+        addBook(Rings);
+    }
+
+    public void setUpMovieList() {
+        Movie Budapest = new Movie("The Grand Budapest Hotel", 2014, "Wes Anderson", 8);
+        Movie Nemo = new Movie("Finding Nemo", 2003, "Andrew Stanton", 8);
+
+        addMovie(Budapest);
+        addMovie(Nemo);
     }
 
     public List<Book> getCheckedInBooks() {
@@ -57,21 +78,5 @@ public class Library {
             }
         }
         return checkedOutMovies;
-    }
-
-    public void setUpBookList() {
-        Book Gatsby = new Book("The Great Gatsby", "F. Scott Fitzgerald", 1925);
-        Book Rings = new Book("The Lord of the Rings", "J.R.R. Tolkien", 1954);
-
-        addBook(Gatsby);
-        addBook(Rings);
-    }
-
-    public void setUpMovieList() {
-        Movie Budapest = new Movie("The Grand Budapest Hotel", 2014, "Wes Anderson", 8);
-        Movie Nemo = new Movie("Finding Nemo", 2003, "Andrew Stanton", 8);
-
-        addMovie(Budapest);
-        addMovie(Nemo);
     }
 }

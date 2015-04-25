@@ -8,6 +8,7 @@ public class Options {
     private PrintStream writer;
     private Library library;
     private UserList userList;
+    private boolean loggedIn = false;
 
     public Options(InputStream in, OutputStream out) {
         reader = new BufferedReader(new InputStreamReader(in));
@@ -17,6 +18,19 @@ public class Options {
         library.setUpMovieList();
         userList = new UserList();
         userList.setUpUserList();
+    }
+
+    public void mainMenu() throws IOException {
+        if(isLoggedIn()) {
+            writer.println("Main Menu: \n1. List Books \n2. Checkout Book \n" +
+                    "3. Return Book \n4. List Movies \n5. Show User Details \n\nCommands (use at any time) \nm: show main menu " +
+                    "\nq: quit");
+        }
+        else {
+            writer.println("Main Menu: \n1. List Books \n2. Checkout Book \n" +
+                    "3. Return Book \n4. List Movies \n\nCommands (use at any time) \nm: show main menu " +
+                    "\nq: quit");
+        }
     }
 
     public void listBooks() throws IOException {
@@ -42,6 +56,7 @@ public class Options {
     }
 
     public void checkoutBook() throws IOException {
+
         writer.println("Which book do you wish to check out?");
         String book = reader.readLine();
 
@@ -97,6 +112,7 @@ public class Options {
         String movie = reader.readLine();
 
         boolean success = false;
+
         for(Movie m:library.getCheckedOutMovies()) {
             if (m.getName().equals(movie)) {
                 m.checkIn();
@@ -104,16 +120,38 @@ public class Options {
                 success = true;
             }
         }
+
         if (!success) {
             writer.println("That is not a valid movie to return.");
         }
     }
 
-    public void login() {
-        writer.println("You will need to login to do that.\nUsername: ");
-        writer.println("Password: ");
-        userList.getUser("sarahn").login();
-        writer.println("Login successful");
+    public void login() throws IOException {
+        if(!loggedIn) {
+            writer.print("You will need to login to do that.\nLibrary Number: ");
+            String id = reader.readLine();
+            writer.print("Password: ");
+            String password = reader.readLine();
+            if(userList.getUser(id).login(id, password)) {
+                loggedIn = true;
+                writer.println("Login successful");
+            }
+            else {
+                writer.println("Login unsuccessful");
+            }
+        }
     }
 
+    public void displayDetails() throws IOException {
+        for (User u:userList.getUserList()) {
+            if(u.isLoggedIn()) {
+                writer.println(u.getDetails());
+            }
+        }
+
+    }
+
+    public boolean isLoggedIn() {
+        return loggedIn;
+    }
 }
